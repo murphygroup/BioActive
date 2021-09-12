@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BioActive v1.2</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+	<header id="main-header">
+		<div class="container">
+			<h1>BioActive v1.2</h1>
+		</div>
+	</header>
+
+	<ul class="navbar">
+		<li><a href="../index.html">Home</a></li>
+		<li class="dropdown">
+			<a href="javascript:void(0)" class="dropbtn">Campaigns</a>
+			<div class="dropdown-content">
+				<a href="campaigns/discretecampaign.html">Discrete Variable Regression Campaigns</a>
+				<a href="campaigns/poolbased.html">Pool-Based Classification Campaigns</a>
+				<a href="campaigns/battleshipreal.html">Categorical Variable Campaigns</a>
+				<!--<a href="campaigns/getdataimagecampaign.html">Image Input Campaigns</a>
+				<a href="campaigns/continuouscampaign.html">Continuous Variable Regression Campaigns</a>-->
+			</div>
+		</li>
+		<li class="dropdown active">
+			<a href="javascript:void(0)" class="dropbtn">Common Scripts</a>
+			<div class="dropdown-content">
+				<a href="runcampaign.html">RunCampaign</a>
+				<a href="createcampaign.html">CreateCampaign</a>
+				<a href="activelearner.html">ActiveLearner</a>
+				<a href="modeler.html">Modeler</a>
+				<a href="database.html">Database</a>
+				<a href="goaltether.html" class="active">Goal Tether</a>
+				<a href="dataacquisition.html">Data Acquisition</a>
+			</div>
+		</li>
+		<li><a href="../contributors.html">Contributors</a></li>
+	</ul>
+
+	<section class="content-start">
+		<div class="container">
+			<h2>Goal Tether Functions</h2>
+
+			<p>The purpose of the goal tether functions or objective termination functions is to determine whether or not the objective of the campaign of interest has been reached and thus whether the campaign should continue to run.</p>
+
+			<p>Currently available are 3 types of goal tether functions.</p>
+
+			<p>"tetherCat.py" determines objective satisfaction based off whether the mean of the confidences meets or exceeds criterion fixed within "tetherCat.py"</p>
+
+			<p>"tetherCat_Bria.py" has only 1 criterion and is expressedly for the campaigns dependent on a 27 image dataset. This goal tether function simply demands that the campaign exhaust all the data.</p>
+
+			<p>"tetherCont.py" determines objective satisfaction based off 2 criteria: whether both the mean of the confidences meets or exceeds a threshold fixed within "tetherCont.py" and the model R value meets or exceeds a second threshold fixed within the "tetherCont.py"</p>
+
+			<p>"tetherContProto.py" determines objective satisfaction based on whether the confidence of model's parameters exceed 0.90. This goal tether function is used for "contProto" campaign.</p>
+		</div>
+	</section>
+
+	<script src="../main.js"></script>
+</body>
+</html>

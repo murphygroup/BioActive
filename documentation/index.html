@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BioActive v1.2</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<header id="main-header">
+		<div class="container">
+			<h1>BioActive v1.2</h1>
+		</div>
+	</header>
+
+	<ul class="navbar">
+		<li class="active"><a href="index.html">Home</a></li>
+		<li class="dropdown">
+			<a href="javascript:void(0)" class="dropbtn">Campaigns</a>
+			<div class="dropdown-content">
+				<a href="campaigns/discretecampaign.html">Discrete Variable Regression Campaigns</a>
+				<a href="campaigns/poolbased.html">Pool-Based Classification Campaigns</a>
+				<a href="campaigns/battleshipreal.html">Categorical Variable Campaigns</a>
+				<!--<a href="campaigns/getdataimagecampaign.html">Image Input Campaigns</a>
+				<a href="campaigns/continuouscampaign.html">Continuous Variable Regression Campaigns</a>-->
+			</div>
+		</li>
+		<li class="dropdown">
+			<a href="javascript:void(0)" class="dropbtn">Common Scripts</a>
+			<div class="dropdown-content">
+				<a href="commonscripts/runcampaign.html">RunCampaign</a>
+				<a href="commonscripts/createcampaign.html">CreateCampaign</a>
+				<a href="commonscripts/activelearner.html">ActiveLearner</a>
+				<a href="commonscripts/modeler.html">Modeler</a>
+				<a href="commonscripts/database.html">Database</a>
+				<a href="commonscripts/goaltether.html">Goal Tether</a>
+				<a href="commonscripts/dataacquisition.html">Data Acquisition</a>
+			</div>
+		</li>
+		<li><a href="contributors.html">Contributors</a></li>
+	</ul>
+
+	<section class="content-start">
+		<div class="container">
+			<h1>About BioActive</h1>
+
+			<p>The goal of the BioActive project is to develop an open, community standard for running Automated Science campaigns using artificial intelligence and laboratory automation.  BioActive provides a structure for defining an
+				experimental space specification (ESS) consisting of specified independent, dependent and associated variables, a predictive model construction
+				function, an active learning function, and an objective function tethered to a termination criteria.
+				It facilitates active learning experimentation, delivering a model for the aforementioned space.
+				This framework is comprised of minimally constraining components and is capable of producing reliable
+				models while reducing unnecessary experimentation.
+			</p>
+		</div>
+	</section>
+
+	<script src="main.js"></script>
+</body>
+</html>

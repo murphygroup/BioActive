@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BioActive</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+	<header id="main-header">
+		<div class="container">
+			<h1>BioActive</h1>
+		</div>
+	</header>
+
+	<ul class="navbar">
+		<li><a href="../index.html">Home</a></li>
+		<li class="dropdown active">
+			<a href="javascript:void(0)" class="dropbtn">Campaigns</a>
+			<div class="dropdown-content">
+				<a href="campaigns/discretecampaign.html">Discrete Variable Regression Campaigns</a>
+				<a href="campaigns/poolbased.html">Pool-Based Classification Campaigns</a>
+				<a href="campaigns/battleshipreal.html">Categorical Variable Campaigns</a>
+				<!--<a href="campaigns/getdataimagecampaign.html">Image Input Campaigns</a>
+				<a href="campaigns/continuouscampaign.html">Continuous Variable Regression Campaigns</a>-->
+			</div>
+		</li>
+		<li class="dropdown">
+			<a href="javascript:void(0)" class="dropbtn">Common Scripts</a>
+			<div class="dropdown-content">
+				<a href="../commonscripts/runcampaign.html">RunCampaign</a>
+				<a href="../commonscripts/createcampaign.html">CreateCampaign</a>
+				<a href="../commonscripts/activelearner.html">ActiveLearner</a>
+				<a href="../commonscripts/modeler.html">Modeler</a>
+				<a href="../commonscripts/database.html">Database</a>
+				<a href="../commonscripts/goaltether.html">Goal Tether</a>
+				<a href="../commonscripts/dataacquisition.html">Data Acquisition</a>
+			</div>
+		</li>
+		<li><a href="../contributors.html">Contributors</a></li>
+	</ul>
+
+	<section id="introduction" class="content-start">
+		<div class="container">
+		<h2>About the Battleship Campaign</h2>
+
+		<p>This type of campaign consists of an Experimental Space consisting of two independent variables that take on a discrete set of values and a single integer-valued dependent variable.  When the dependent variable is binary, the Experimental Space is analogous to the board in the game of Battleship and hence campaigns of this type are referred to a Battleship campaigns.  A board of hits and misses is initialized. Depending on user choices, simulated "boards" can range from having a clear structure to its rows and columns (i,e., be of low rank) to being completely randomized.  The purpose of this campaign is to test the abilities of its associated categorical modeller to find a lower ranked model of the board and predict unseen values in the board. In the campaign, there are four basic steps. First, the campaign checks if the stopping criterion has been met. If the stopping criterion has not been met, then the campaign proceeds by building a model from the existing data. Based on the confidence levels the modeler assigns to its own predictions, the active learner then chooses which data to request next, prioritizing data for which the modeller has low-confidence predictions. Then, the experiments requested by the active learner are performed by the data acquisition function (which can either just return values from a simulated "ground truth" dataset or carry out an experiment using laboratory automation), and the data is stored in a database. The cycle then repeats until the stopping criterion has been met, after which the campaign terminates. More detailed documentation on each of these four functions can be found in the function library.</p>
+
+		<figure>
+			<a href="images/flowchart.jpg" target="_blank"><img src="images/flowchart.jpg"></a>
+			<figcaption>Flowchart of the BioActive software</figcaption>
+		</figure>
+
+		<h2>About the Real-Life Implementation of the Battleship Campaign</h2>
+
+			<p>Though there is a simulations-only Battleship campaign as well as a totally structured, but simulations-only clustered data campaign (<em>BioActive_Battleship.py</em>) and (<em>BioActive_ClusterCampaign.py</em>) respectively, the real-life implementation of the Battleship Campaign using Eppendorf Robotics consists of two separate campaigns: the plate initialization campaign (<em>BioActive_CreatePlate.py</em>) and the real-life battleship campaign itself (<em>BioActive_battleshipReal.py</em>). The plate initialization campaign creates the board and save the ground truth data of the board in a text file. Based on this ground truth, the campaign then writes the protocol to set up the plate for the battleship campaign. The battleship campaign then runs as described above. However, for the real-life battleship campaign, there are also options to save and quit throughout the campaign, and resume again at the same point when prompted. There are also points in the campaign that allow the user to pause the BioActive software and actually conduct the protocols. There is also underway efforts to implement BioActive Battleship using Momentum Robotics (<em>BioActive_Battleship_Momentum</em>).</p>
+		</div>
+	</section>
+	<section id="manual">
+		<div class="container">
+		<h2>How to Run the Bioactive Software</h2>
+
+		<section class="manual-sub" id="genplate">
+			<h3>Generating the plate protocol</h3>
+
+			<section class="step">
+				<h4>Step 1: Setup</h4>
+
+				<p>Prior to running the Bioactive software, ensure that the apparatus and setup of the worktable is the same as that of <em>Battleship_setup.dws</em>.</p>
+
+				<figure>
+					<a href="images/setup.JPG" target="_blank"><img src="images/setup.JPG"></a>
+					<figcaption>The set up worktable as seen on epBlue software</figcaption>
+				</figure>
+
+				<figure>
+					<a href="images/realsetup.JPG" target="_blank"><img src="images/realsetup.JPG"></a>
+					<figcaption>The set up worktable as seen on the machine</figcaption>
+				</figure>
+
+				<p>The Battleship campaign uses water, acid, and pH indicator. The water signifies "miss" and the acid signifies "hit". Since water and acid are both colorless, the colorless well represents an unexplored experimental space. This protocol specifically uses Phenol red, which turns yellow when reacted with acid. Thus, an experiment is performed by injecting the pH indicator to the well. If the liquid inside the well turns yellow, this indicates "hit" as acid and Phenol red reacts, and if the liquid turns red, this indicates "miss" as water does not change the color of Phenol red. For this specific campaign, Tub 1 is assumed to be acid, Tub 2 is assumed to be water, and Tub 3 is assumed to be Phenol red.</p>
+				<figure>
+					<a href="images/tubsetup.JPG" target="_blank"><img src="images/tubsetup.JPG"></a>
+					<figcaption>Tub setup</figcaption>
+				</figure>
+			</section>
+			<section class="step">
+				<h4>Step 2: Run Bioactive and Input Noise Level</h4>
+
+				<p>Run BioActive_CreatePlate. It will prompt the user for the desired amount of noise. The noise must be in the range [0,1], with 0 indicating a completely structured board (a checkerboard will be generated), and 1 indicating a completely random board.</p>
+
+				<p>The structure of the board itself can be modified by changing the number of classes or the phenotypes in the file <em>breakpoints_createPlate.py</em>. Noise is added by randomly flipping labels/ phenotypes in the board. The probability that any single label is flipped in the data is the noise divided by 2. Thus, completely noisy data (noise = 1) will have a ½ probability of being a hit or a miss, because it has a ½ probability of being flipped to either a hit or a miss.</p>
+
+				<p>Once the ground truth has been initialized, the ground truth data for the board will be stored in a text file (<em>battleship.txt</em>). In addition, a reshaped version of the data resembling the actual layout for the board will be stored in the text file <em>framed.txt</em>, though the underlying data remains the same for both <em>battleship.txt</em> and <em>framed.txt</em>.
+				</p>
+			</section>
+			<section class="step">
+				<h4>Step 3: Bioactive Generates Protocol</h4>
+
+				<p>Finally, the software will use the ground truth generated to create a protocol to create the plate itself. This protocol is generated in the file initscript.py and is named <em>battleship_init.dws</em>. The Bioactive software will then reach a pause point, giving the user time to run the actual protocol.</p>
+			</section>
+			<section class="step">
+				<h4>Step 4: Run Protocol</h4>
+
+				<p>In order to run the protocol, the protocol should then be moved from the computer on which the Bioactive software is running to the windows xp machine connected to the Eppendorf robot. The user should then use the Eppendorf software and run the protocol.</p>
+
+				<a class="button" href="#protocol">How to run protocol</a>
+			</section>
+			<section class="step">
+				<h4>Step 5: Terminate Bioactive</h4>
+
+				<p>After the user has run the protocol, they should press enter to resume the campaign, upon which the plate creation campaign will terminate.</p>
+
+				<figure>
+					<a href="images/platetheoretical.JPG" target="_blank"><img src="images/platetheoretical.JPG"></a>
+					<figcaption>The theoretical image of the initialized plate. Both blue and red boxes should be colorless, and the last four rows of the control columns should be yellow for acid and red for water.</figcaption>
+				</figure>
+			</section>
+		</section>
+		<section class="manual-sub" id="runbattle">
+			<h3>Running the battleship campaign</h3>
+
+			<section class="step">
+				<h4>Step 1: Database Setup</h4>
+
+				<p>Now that the experimental space and control values are initialized, Run BioActive_battleshipReal. The first prompt you will see is to enter the name of the database. This will initialize the .hdf5 file which acts as a permanent storage. The software will then ask for the name of the plot, which will eventually be the name of the .png file that plots the accuracy measurements relative to the experimental space coverage.</p>
+			</section>
+			<section class="step">
+				<h4>Step 2: Goal Tether</h4>
+
+				<p>This is the stopping criterion for the campaign, found in <em>tetherCat.py</em>. In this particular implementation of the real-life battleship campaign, this stopping criterion is determined by the amount of confidence the modeller assigns to its predictions to unseen data (i.e. the mean confidence in the predictions must be at least .9). However, other stopping criteria are possible, such as when the cost of the experiments has reached a certain limit (as is the case when the cost of experiments is a large factor in the experimentation).</p>
+			</section>
+			<section class="step">
+				<h4>Step 3: Modeller</h4>
+
+				<p>In the real-life battleship campaign, the categorical modeller used tries to find clusters of rows and columns that are the same. Based on those clusters, it then makes predictions for the unacquired data. It also assigns confidence levels to each of its predictions.</p>
+			</section>
+			<section class="step">
+				<h4>Step 4: Active Learner</h4>
+
+				<p>The active learner will select the data points for which the prediction confidence is lowest. If there are multiple points for which the confidence is very low, then the active learner will randomly select data points to request. In the case that the batch size exceeds the amount of low confidence predictions, then the active learner will simply request no data, and the campaign will terminate.</p>
+			</section>
+			<section class="step">
+				<h4>Step 5: Generating Protocol and Saving</h4>
+				
+				<p>Once the active learner requests which experiments to perform, the user is given information about which batch number they are currently on, and which experiments have been requested for this batch. At this point there should be protocol in .dws file format in the same directory.</p>
+				
+				<p>The user should be prompted to either save, save and quit, or ignore and continue. If the user decides to save or save and quit, the data that’s been acquired to this point and the campaign object’s attributes pertaining to historical information (such as batch number, historical accuracy, start time, last saved time, model, etc) will be written to the disc and will preside in the hdf5 file that’s been initialized in step 1.</p>
+
+				<p>Execute the protocol once the user decides to continue the campaign.</p>
+				<a class="button" href="#protocol">How to run protocol</a>
+			</section>
+			<section class="step">
+				<h4>Step 5.5: Saving and reloading the campaign</h4>
+
+				<p>If the user decides to save and quit in the previous step, the campaign can be called back by re-running BioActive_battleshipReal. The user will be prompted to input the name of the database again. If the user inputs the name of the same database as he/she did previously, the program will recognize it and provide the user with the following information: the time campaign was initialized, the time campaign was saved, current batch number, and the protocol that is expected to be run. Remember the intuition is that each .hdf5 has 1:1 relationship with the instance of a campaign run, so a different name of database is treated as a completely different instance of the campaign run, while the same name of database is treated as the same instance of a campaign run.  Then the program will ask if the user wants to continue from the previous progress. If yes, continue to step 6. If no, continue to step 2 with all the previous progress discarded.</p>
+			</section>
+			<section class="step">
+				<h4>Step 6: Inputting the data</h4>
+
+				<p>Once the experiment is terminated, take the plate from the machine and bring it to the plate reader. There should be an existing protocol on the plate reader to read the plate, but if there is not, then a new plate reader protocol can be generated.</p>
+			</section>
+			<section class="step" id="useplate">
+				<h4>Step 6.5: Generating a new plate reader protocol</h4>
+
+				<p>To generate a new plate protocol matching the protocol used for previous iterations of the real battleship campaign, the SparkControl software must be run from the computer linked to the plate reader.</p>
+				<p>From the dashboard of the SparkControl application, select a new method</p>
+
+				<figure>
+					<a href="images/platereader1.jpg" target="_blank"><img src="images/platereader1.jpg"></a>
+				</figure>
+				
+				<p>The system will then prompt the user to enter in plate settings.</p>
+				
+				<figure>
+					<a href="images/platereader2.jpg" target="_blank"><img src="images/platereader2.jpg"></a>
+				</figure>
+				
+				<p>The settings should be as follows:</p>
+				<ul>
+					<li>Plate: Greiner 96 Flat Transparent Plate ([GRE96ft_CellCulture])</li>
+					<li>Lid lifter: no lid (i.e. the lid, if any, must be taken off the wells before the plate is fed into the machine)</li>
+					<li>Humidity Cassette: No humidity cassette</li>
+					<li>Smooth mode: Not selected</li>
+				</ul>
+				<p>Essentially, everything should be left in its default mode, except that the plate needs to be changed to the Greiner 96 Flat Transparent Cell Culture plate.</p>
+
+				<figure>
+					<a href="images/platereader3.jpg" target="_blank"><img src="images/platereader3.jpg"></a>
+				</figure>
+
+				<p>The plate area should also be selected. Because the real-life battleship campaign uses the entire plate, the entire plate should be selected.</p>
+
+				<figure>
+					<a href="images/platereader4.jpg" target="_blank"><img src="images/platereader4.jpg"></a>
+				</figure>
+
+				<p>The machine method used was Absorbance Scan.</p>
+
+				<figure>
+					<a href="images/platereader5.jpg" target="_blank"><img src="images/platereader5.jpg"></a>
+				</figure>
+
+				<p>Once selected, the Absorbance Scan screen should look as follows:</p>
+
+				<figure>
+					<a href="images/platereader6.jpg" target="_blank"><img src="images/platereader6.jpg"></a>
+				</figure>
+
+				<figure>
+					<a href="images/platereader7.jpg" target="_blank"><img src="images/platereader7.jpg"></a>
+				</figure>
+
+				<p>For the acids and indicators we used, the measurement range was set to 420 - 560, with a step size of 140. This may have to be changed based on the specific compounds used in the experiments, and depends on the peak absorbance levels for each compound.</p>
+
+				<p>The plate should then be fed into the machine, and the new plate protocol should be then run using the start button.</p>
+
+				<figure>
+					<a href="images/platereader8.jpg" target="_blank"><img src="images/platereader8.jpg"></a>
+				</figure>
+
+				<p>Once the plate reader is done, the computer will generate an excel file with the plate data.</p>
+
+				<p>There is a sample excel file in the git repository, under the name “Batch_16.xlsx.”</p>
+
+				<p>Once the excel file is generated, input the name of the excel file (without the .xlsx) to the terminal, which will then be interpreted by the program and converted to categorical data. The data will then be stored in the database.</p>
+
+				<p>Go back to step 2 and repeat this process until the program terminates.</p>
+			</section>
+		</section>
+		<section class="manual-sub">
+			<h3 id="protocol">Loading and executing .dws protocols on Eppendorf epBlue</h3>
+			<section class="step">
+				<h4>Step 1: Moving the .dws file</h4>
+
+				<p>Find the protocol (.dws file) from the same directory, and move the file into a flashdrive. Then, using the flashdrive, move the protocol to the appropriate directory (C:\Program Files\Eppendorf\epBlue\Server\top\cpcb)</p>
+
+				<figure>
+					<a href="images/filemove.jpg" target="_blank"><img src="images/filemove.jpg"></a>
+					<figcaption>Moving the protocol to the windows xp machine</figcaption>
+				</figure>
+			</section>
+			<section class="step">
+				<h4>Step 2: Load the protocol to epBlue software</h4>
+
+				<p>Launch "eppendorf epBlue" software if it isn't yet. From "File/open application", locate the previously loaded protocol and click "Open Application".</p>
+
+				<figure>
+					<a href="images/loadeppendorf.jpg" target="_blank"><img src="images/loadeppendorf.jpg"></a>
+					<figcaption>Loading the protocol to epBlue software</figcaption>
+				</figure>
+			</section>
+			<section class="step">
+				<h4>Step 3: Running the protocol</h4>
+
+				<p>Select the "run" tab from the left and hit the button "run". Make sure that "Filter Devicelist" checkbox is checked and "Simulation" checkbox isn't.</p>
+
+				<figure>
+					<a href="images/run1.jpg" target="_blank"><img src="images/run1.jpg"></a>
+					<figcaption>Running the protocol from the run tab</figcaption>
+				</figure>
+
+				<p>Then, make sure only the "tips" checkbox is selected under the Levelsensor Settings; the current machine sensor is defective. The protocol will run fine as long as the set up is correct.</p>
+
+				<figure>
+					<a href="images/run2.jpg" target="_blank"><img src="images/run2.jpg"></a>
+					<figcaption>Checking off the defective sensor checkboxes</figcaption>
+				</figure>
+			</section>
+			<section class="step">
+				<h4>Step 4: Manually setting the water level</h4>
+
+				<p>Since the Levels sensor is turned off, the user needs to manually specify the water volume level from the software. Use the best judgement to approximate how much liquid is present inside the tub. It is better to underestimate than overestimate since if there are less liquid than specified, the machine may fail to lower the tip to the water level and pipet nothing.</p>
+
+				<figure>
+					<a href="images/waterlevel.jpg" target="_blank"><img src="images/waterlevel.jpg"></a>
+					<figcaption>Specifying the liquid volume</figcaption>
+				</figure>
+
+				<p>Wait until the experiment terminates. The machine may give a warning message "Maximum number of tool cycles exceeded", but this can be ignored.</p>
+			</section>
+		</section>
+		</div>
+	</section>
+	<footer id="bot"></footer>
+
+	<script src="../main.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BioActive v1.2</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+	<header id="main-header">
+		<div class="container">
+			<h1>BioActive v1.2</h1>
+		</div>
+	</header>
+
+	<ul class="navbar">
+		<li><a href="../index.html">Home</a></li>
+		<li class="dropdown">
+			<a href="javascript:void(0)" class="dropbtn">Campaigns</a>
+			<div class="dropdown-content">
+				<a href="campaigns/discretecampaign.html">Discrete Variable Regression Campaigns</a>
+				<a href="campaigns/poolbased.html">Pool-Based Classification Campaigns</a>
+				<a href="campaigns/battleshipreal.html">Categorical Variable Campaigns</a>
+				<!--<a href="campaigns/getdataimagecampaign.html">Image Input Campaigns</a>
+				<a href="campaigns/continuouscampaign.html">Continuous Variable Regression Campaigns</a>-->
+			</div>
+		</li>
+		<li class="dropdown active">
+			<a href="javascript:void(0)" class="dropbtn">Common Scripts</a>
+			<div class="dropdown-content">
+				<a href="runcampaign.html">RunCampaign</a>
+				<a href="createcampaign.html">CreateCampaign</a>
+				<a href="activelearner.html">ActiveLearner</a>
+				<a href="modeler.html" class="active">Modeler</a>
+				<a href="database.html">Database</a>
+				<a href="goaltether.html">Goal Tether</a>
+				<a href="dataacquisition.html">Data Acquisition</a>
+			</div>
+		</li>
+		<li><a href="../contributors.html">Contributors</a></li>
+	</ul>
+
+	<section class="content-start">
+		<div class="container">
+			<h2>Quick Overview</h2>
+
+			<p>While the model is mostly initialized by runCampaign.py, each separate model might require some additional initialization of its own. Therefore, the first clause of every modeler checks if modelization was complete (False by default) and adds additional initialization code (if any) before setting initModelComplete to True.</p>
+
+
+			<h2>Predictive Modeling Functions</h2>
+
+			<p>The purpose of all the predictive modeling functions provided in the BioActive project is to model the experimental space defined explicitly by tuples comprised of all the independent variables in the campaign Object. Some of the predictive modelers make use of resources such as sklearn and others have been written in-house by the team behind BioActive. Each predictive modeler initializes all necessary variables needed to model the experimental space, track, assess, and evaluate accuracy over the course of the campaign.</p>
+
+			<h2>Discrete Modeling</h2>
+
+			<p>The modeler "contModel.py" uses linear regression and is not limited to 2 independent variables. It has been deployed for analysis for up to 10 independent variables.</p>
+			
+			<h2>Continuous Modeling</h2>
+
+			<p>There is a separate modeler called "contModelProto.py" that uses linear regression on 2 independent variables, not to be confused with "contModel.py". "contModelProto.py" is for the "contProto" campaign.</p>
+
+			<h2>Categorical Modeling</h2>
+
+			<p>The categorical variable modeler "catModel11" uses a clustering algorithm to identify what clusters in "rows" or "columns" are not dissimilar and thus produces a model that can then predict values mapping the experimental space.</p>
+
+			<p>The categorical modeler is equipped to model a variety of different experimental spaces as well as to assess its own accuracy. In particular, it is designed to be flexible and to accommodate campaigns in which the test labels do not remain static, i.e. pairwise analysis for cases where k-means clustering is used to determine what labels an experimental dataset should take given new data.</p>
+
+			<p>The categorical modeler: identifies clusters in rows and columns separately, provides initial predictions based off those models separately, and then merges the predictions into final predictions based off the confidence calculated for each of the predictions. It then averages the confidence between the modeling processes for clustering in rows and columns for a final confidence that can then be used to guide the active learner.</p>
+
+			<p>Two approaches are currently available for modeling in rows and columns. In both approaches, "conf1" and "conf2," a predictive model is built based off clustering in the rows and columns, respectively, however, in "conf2," the approach makes use of the mode to predict values that can't be otherwise determined due to incompleteness of a predictive cluster.</p>
+
+			<h2>Accuracy Assessment</h2>
+
+			<p>When ground truth is available, defined within the campaign object, e.g. createCampaign_linReg.py or createCampaign_clusterinteractions.py, 3 types of accuracy assessment are deployed: forward modeling, full space accuracy, and predictions-only accuracy. In the absence of ground truth, only forward modeling may be used.</p>
+
+			<p>Heatmaps are deployed throughout so that confidence assignment and accuracy may be tracked over the course of the campaign either in a .gif file as with the pairwise plots or in a video as in the confidence assignment tracking.</p>
+
+			<h2>Inputs</h2>
+
+			<p>Currently available predictive modelers take as their input the campaign object and at the end of the campaign, the campaign object and the experimental space coverage calculated within "runCampaign2.py" on every round to perform the final accuracy assessments and corresponding plotting.</p>
+
+			<p>The categorical modeler should only take campaigns with categorical variables just as the continuous variable modeler should only take campaigns with continuous variables.</p>
+
+			<h2>Outputs</h2>
+
+			<p>The predictive modelers produce a model for the experimental space defined within the campaign object as well as several accuracy assessments, e.g. plots of accuracy over the course of the campaign along with heatmaps revealing how the campaign identified experiments to perform.</p>
+
+			<h2>Assessment Resources</h2>
+
+			<p>The predictive modelers available and particularly the categorical modeler make great use of standalone resources such as ground truth for the various pertinent campaigns using them as well as the heat map functions and pairwise accuracy computation.</p>
+		</div>
+	</section>
+
+	<script src="../main.js"></script>
+</body>
+</html>

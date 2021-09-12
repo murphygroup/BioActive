@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BioActive v1.2</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
+</head>
+<body>
+	<header id="main-header">
+		<div class="container">
+			<h1>BioActive v1.2</h1>
+		</div>
+	</header>
+
+	<ul class="navbar">
+		<li><a href="../index.html">Home</a></li>
+		<li class="dropdown">
+			<a href="javascript:void(0)" class="dropbtn">Campaigns</a>
+			<div class="dropdown-content">
+				<a href="campaigns/discretecampaign.html">Discrete Variable Regression Campaigns</a>
+				<a href="campaigns/poolbased.html">Pool-Based Classification Campaigns</a>
+				<a href="campaigns/battleshipreal.html">Categorical Variable Campaigns</a>
+				<!--<a href="campaigns/getdataimagecampaign.html">Image Input Campaigns</a>
+				<a href="campaigns/continuouscampaign.html">Continuous Variable Regression Campaigns</a>-->
+			</div>
+		</li>
+		<li class="dropdown active">
+			<a href="javascript:void(0)" class="dropbtn">Common Scripts</a>
+			<div class="dropdown-content">
+				<a href="runcampaign.html" class="active">RunCampaign</a>
+				<a href="createcampaign.html">CreateCampaign</a>
+				<a href="activelearner.html">ActiveLearner</a>
+				<a href="modeler.html">Modeler</a>
+				<a href="database.html">Database</a>
+				<a href="goaltether.html">Goal Tether</a>
+				<a href="dataacquisition.html">Data Acquisition</a>
+			</div>
+		</li>
+		<li><a href="../contributors.html">Contributors</a></li>
+	</ul>
+
+	<section class="content-start">
+		<div class="container">
+			<h1>About BioActive's runCampaign2</h1>
+
+			<p>runCampaign2.py integrates the functionality of a potentially highly variable ESS (experimental space specification) with swappable modular functionality into a single, common active learning framework delivering a reliable model, minimizing experimentation.</p>
+
+				<h2>File Structure</h2>
+
+					<h3>Initialization</h3>
+
+						<p>runCampaign2.py initializes the campaignObject before any experimentation has begun. The following call initializes the model for the campaign by attach to it the attributes later required by the modelers. However, each campaign's model is different and some might require some additional attributes. These specific attributes should be initialized in the modeler file. See the modeler page for more information.</p>
+
+						<pre><code class="language-py">initModel.main(campaignObject)</code></pre>
+
+						<p>and the following call initializes the associated variables for the pool-based campaigns. Does nothing for other campaigns.</p>
+
+						<pre><code class="language-py">campaignObject.initAvars()</code></pre>
+
+					<h3>Modeling Phase</h3>
+
+					<p>The "modeling phase" is a while loop that first models the data chosen (none for the first round of iteration), then stores information obtained from modeling the data. The loop ends once the specified goal has been attained, which is checked every iteration through the goalTether function.</p>
+
+		</div>
+	</section>
+
+	<script src="../main.js"></script>
+</body>
+</html>
